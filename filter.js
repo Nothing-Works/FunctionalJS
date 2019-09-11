@@ -1,4 +1,3 @@
-Array.prototype.andyFilter
 const people = [
     { name: "Donald Knuth", born: 1938 },
     { name: "Vin Cerf", born: 1943 },
