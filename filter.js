@@ -1,3 +1,4 @@
+Array.prototype.andyFilter
 const people = [
     { name: "Donald Knuth", born: 1938 },
     { name: "Vin Cerf", born: 1943 },
@@ -59,3 +60,16 @@ const myFilter = () => {
 
   console.table(myFilter2(person => person.born > 1945, people));
   console.table(people.filter(person => person.born > 1945));
+
+  Array.prototype.myOwnFilter = function(predicate) {
+    const result = [];
+
+    for (let item of this) {
+      if (predicate(item)) {
+        result.push(item);
+      }
+    }
+    return result;
+  };
+
+  console.table(people.myOwnFilter(person => person.born > 1945));

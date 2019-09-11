@@ -71,4 +71,16 @@ console.table(myFilter2(person => person.born > 1945, people));
 
 //finally
 console.table(people.filter(person => person.born > 1945));
+
+//I think we can do it by ourself
+Array.prototype.andyFilter = function(predicate) {
+  const result = [];
+
+  for (let item of this) {
+    if (predicate(item)) {
+      result.push(item);
+    }
+  }
+  return result;
+};
 ```
