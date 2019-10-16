@@ -1,3 +1,4 @@
+//reduce array to one object
 const people = [
     {id:1, name: "Donald Knuth", born: 1938 },
     {id:2, name: "Vin Cerf", born: 1943 },
