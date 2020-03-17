@@ -7,3 +7,33 @@ a = 0;
 //so a is 0, b is 10.
 console.log(a); //0;
 console.log(b); //10;
+
+let originalString = 'andy';
+let modifiedString = originalString + 'song';
+console.log(originalString);
+console.log(modifiedString);
+
+const original = {
+    cells : 1,
+    author : 'andy',
+    metadata: {
+        title : 'foo',
+        times : 2,
+    }
+}
+
+const copy = {
+    cells : original.cells,
+    author : original.author,
+    metadataNew : {...original.metadata, title : original.metadata.title},
+    metadataOld : original.metadata
+}
+
+copy.metadataOld.title = 'will change original title'
+copy.metadataNew.title = 'will not change title'
+
+copy.cells = 2;
+copy.author = 'song'
+
+console.log(original);
+console.log(copy);
