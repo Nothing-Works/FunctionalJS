@@ -106,3 +106,179 @@ That has nothing to do with undefined.
 Really, `undefined` is a regular primitive value, like 2 or 'hello'.
 
 Handle it with care.
+
+## Null
+
+![Null](img/null.png)
+
+You can think of `null` as `undefined`'s sister. It behaves very similarly. For example, it will also throw a fuss when you try to access its properties:
+
+```JavaScript
+let mimsy =  null;
+
+console.log(mimsy.mood); //TypeError!
+```
+
+![Mimsy](img/mimsy.png)
+
+Similarly to `undefined`, **null is the only value of its own type.** However, `null` is also a liar. Due to a [bug](https://2ality.com/2013/10/typeof-null.html?ck_subscriber_id=746096254) in JavaScript, it pretends to be an object:
+
+```JavaScript
+console.log(typeof(null));//'object' (a lie)
+```
+
+You might think this means `null` is an object. Don't fall into this trap! It is a primitive value, and it doesn't behave in any way like an object. Unfortunately, `typeof(null)` is a historical accident that we'll have to live with forever.
+
+In Practice, `null` is used for intentionally missing values. Why have both `null` and `undefined`? This could help you distinguish a coding mistake (which might result in `undefined`) from valid missing data (which you might express as `null`). However, this is only a convention, and JavaScript doesn't enforce this usage. Some people avoid both of them as much as possible!
+
+I do not blame them.
+
+## Booleans
+
+![Booleans](img/booleans.png)
+
+Like day and night, **there are only two boolean values: true and false.**
+
+```JavaScript
+console.log(typeof(true));//'boolean'
+console.log(typeof(false));//'boolean'
+```
+
+We can perform logical operations with them:
+
+```JavaScript
+let isSad = true;
+let isHappy = !isSad;//The opposite
+let isFeeling = isSad || isHappy;//Is at least one of them true?
+let isConfusing = isSad && isHappy;//Are both true?
+```
+
+Count von count would like to check your mental model now. Take a piece of paper, and sketch out the variables, the values, and the wires between them for the above snippet of code.
+
+![Booleans Answer](img/boolean-answer.png)
+
+First, verify that `isHappy` points to `false`, `isFeeling` points to `true`, and `isConfusing` points to `false`.
+
+Next, verify that **there is only one true and one false value on your sketch.** Count von Count insists that this is important! Regardless of how booleans are stored in memory, in our mental model there are only two of them.
+
+## Numbers
+
+![Numbers](img/numbers.png)
+
+So far, we counted exactly four values: `null, undefined, true, and false.`
+
+Hold on, as we will add eighteen quintillion, four hundred and thirty-seven quadrillion, seven hundred and thirty-six trillion, eight hundred and twelve thousand, six hundred and twenty-four more values to our mental model!
+
+I am, of course, talking about numbers:
+
+```JavaScript
+console.log(typeof(28));//'number'
+console.log(typeof(3.14));//'number'
+console.log(typeof(-140));//'number'
+```
+
+At first, numbers might seem unremarkable. Let's look closer!
+
+## A Math for Computers
+
+JavaScript numbers don't behave exactly the same way as regular mathematical numbers do. Here is a snippet that demonstrates it:
+
+```JavaScript
+console.log(0.1 + 0.2 === 0.3);//false
+console.log(0.1 + 0.2 === 0.30000000000000004);//true
+```
+
+This might look very surprising! Contrary to a popular belief, this doesn't mean that JavaScript numbers are broken. This behavior is common in different programming languages. It even has a name: floating point math.
+
+You see, JavaScript doesn't implement the kind of math we use in real life. Floating point math is "math for computers". Don't worry too much about this name or how it works exactly. Very few people know about all its subtleties, and that's the point! It works enough in practice that most of the time you won't think about it. Still let's take a quick look at what makes it different.
+
+## Colors and Numbers
+
+Have you ever used a scanner to turn a physical photo or a document into a digital one? This analogy can help us understanding JavaScript numbers.
+
+Scanners usually distinguish at most 16 million colors. If you draw a picture with a red crayon and scan it, the scanned image should come out red too - but it will have the closet red color our scanner picked from those 16 million colors. So if you have two red crayons with ever so slightly different colors, the scanner might be fooled into thinking their color is exactly the same!
+
+We can say that a scanner treats colors as having a limited precision.
+
+Floating point math is similar. In real math, there is an infinite set of numbers. But in floating point math, **there are only 18 quintillion of them.** So when we write numbers in our code or do calculations with them, JavaScript picks the closet number that it knows about - just like our scanner does with colors.
+
+In other words, JavaScript treats numbers as having a limited precision.
+
+We can imagine all of the JavaScript numbers on an axis. The closer we are to `0`, the more precision numbers have, and the closer they "sit" to each other:
+
+![Numbers](img/numbers.gif)
+
+As we move from `0` in either direction, we start losing precision. At some point, even two closest JavaScript numbers stay further apart than by 1:
+
+```JavaScript
+console.log(Number.MAX_SAFE_INTEGER);     // 9007199254740991
+console.log(Number.MAX_SAFE_INTEGER + 1); // 9007199254740992
+console.log(Number.MAX_SAFE_INTEGER + 2); // 9007199254740992
+console.log(Number.MAX_SAFE_INTEGER + 3); // 9007199254740994
+console.log(Number.MAX_SAFE_INTEGER + 4); // 9007199254740996
+console.log(Number.MAX_SAFE_INTEGER + 5); // 9007199254740996
+```
+
+Luckily, any **whole** numbers between `Number.MIN_SAFE_INTEGER` and `Number.MAX_SAFE_INTEGER` are exact. This is why 10 + 20 === 30.
+
+But when we write 0.1 or 0.2, we don't get exactly 0.1 and 0.2. We get the closest available numbers in JavaScript. They are almost exactly the same, but there might be a tiny difference. These tiny differences add up, which is why 0.1 + 0.2 doesn't give us exactly the same numbers as writing 0.3.
+
+If this is still confusing, don't worry. You can [learn more about floating point math](https://floating-point-gui.de/formats/fp/?ck_subscriber_id=746096254), but you already know more than I did when I started writing this guide! Unless you work on finance apps, you likely won't need to worry about this.
+
+## Special Numbers
+
+It is worth noting that floating point math includes a few special numbers.
+You might occasionally run into `NaN, Infinity, -Infinity, and -0.` They exist because sometimes you might execute operations like `1 / 0`, and JavaScript needs to represent their result somehow, The floating point math standard specifies how they work, and what happens when you use them.
+
+Here's how special numbers may come up in your code:
+
+```JavaScript
+let scale = 0;
+let a = 1 / scale; //Infinity
+let b = 0 / scale; //NaN
+let c = -a; //-Infinity
+let d = 1 / c //-0
+```
+
+Out of these special numbers, `NaN` is particularly interesting. `NaN`, which is the result of `0 / 0` and some other invalid math, stands for "not a number".
+
+You might be confused by why it claims to be a number:
+
+```JavaScript
+console.log(typeof(NaN));//'number'
+```
+
+However, there is no trick here. From JavaScript perspective, `NaN` is a numeric value. It is not null, undefined, a string, or some other type. But in the floating point math, the name for that term is "[not a number](https://en.wikipedia.org/wiki/NaN?ck_subscriber_id=746096254)". So it is a numeric value. It happens to be called "not a number" because it represents an invalid result.
+
+It's uncommon to write code using these special numbers. However, they might come up due to a coding mistake. So it's good to know they exist.
+
+# To Be Continued
+
+This module is split in two parts. We're reached the end of the part1. We'll take a small break now. Let's recap how many values we've counted so far!
+
+![Part1](img/part1.png)
+
+- **Undefined**: Only one value, `undefined`.
+- **Null**: Only one value, `null`.
+- **Boolean**: Two values: `true` and `false`.
+- **Numbers**: One value for each floating point math number.
+
+We've also learned a few interesting facts about JavaScript numbers:
+
+- **Not all numbers can be perfectly represented in JavaScript.** Their decimal part offers more precision closer to `0`, and less precision further away from it. We can say that their decimal point is "floating".
+
+- **Numbers from invalid math operations like 1/0 or 0/0 are special.** `NaN` is one of such numbers. They appear due to coding mistakes.
+
+- **typeof(NaN) is a number because NaN is a numeric value.** It's called "Not a Number" because it represents the idea of an "invalid" number.
+
+In the second part, we will continue our sightseeing tour. We will look at BigInts, Strings, Objects, and Functions - and try to count them all.
+
+# Exercises
+
+This module also has exercises for you!
+
+[Here](https://eggheadio.typeform.com/to/C3Ajk4?email=andylauszp@gmail.com&ck_subscriber_id=746096254)
+
+**Don't skip them**
+
+Even though you’re probably familiar with different types of values, these exercises will help you cement the mental model we’re building. We need this foundation before we can get to more complex topics.
