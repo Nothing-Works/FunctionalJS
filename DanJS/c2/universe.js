@@ -19,3 +19,9 @@ console.log(typeof []);//'object'
 console.log(typeof(x=>x*2));//'function'
 //this will not work.
 // console.log(typeof x => x * 2);//'function'
+//only nine types
+//undefined,null,Number,String,Boolean,Symbol,BigInts,Objects,Functions
+//types
+console.log(typeof([]));//"object"
+console.log(typeof(new Date()));//"object"
+console.log(typeof(/(hello|goodbye)/));//"object"

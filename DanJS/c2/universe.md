@@ -125,3 +125,60 @@ Now take another look at the last three examples - this time with close attentio
 As an aspiring astronomer, you might want to know about every type of value that can be observed in the JavaScript sky. After almost twenty five years of studying JavaScript, the scientists have only discovered nine such types:
 
 ## Primitive Values
+
+- **Undefined** (`undefined`), used for unintentionally missing values.
+- **Null** (`null`), used for intentionally missing values.
+- **Booleans** (`true` and `false`), used for logical operations.
+- **Numbers** (`-100,3.14`, and others), used for math calculations.
+- **Strings** (`'hello','abracadabra'`, and others), used for text.
+- **Symbols** (uncommon), used to hide implementation details.
+- **BigInts** (uncommon and new), used for math on big numbers.
+
+## Objects and Functions
+
+- **Objects** (`{}` and others), used to group related data and code.
+- **Functions** (`x => x * 2` and others), used to refer to code.
+
+## No Other Types
+
+You might ask: "But what about other types I have used, like arrays?"
+
+**In JavaScript, there are no other fundamental value types other than the ones we have just enumerated.** The rest are all object! For example, even arrays, dates, and regular expressions fundamentally are objects in JavaScript:
+
+```JavaScript
+console.log(typeof([]));//"object"
+console.log(typeof(new Date()));//"object"
+console.log(typeof(/(hello|goodbye)/));//"object"
+```
+
+"I see", you might reply, "this is because everything is an object!" Alas, this is a popular urban legend, but it's not true. Although code like `'hi'.toUpperCase()` makes 'hi' seem like an object, this nothing but an illusion. JavaScript creates a wrapper object when you do this, and then immediately discards it.
+
+It's fine if this mechanism doesn't quite click yet. **For now, you only need to remember that primitive values, such as numbers and strings, are not objects.**
+
+# Recap
+
+Let's recap what we know so far:
+
+1. **There are values, and then there's everything else.** We can think of values as different things "floating" in our JavaScript universe. They don't exist inside our code, but we can refer to them from our code.
+
+2. **There are two categories of values: there are Primitive Values, and then there are Objects and Functions.** In total, there are nine separate types. Each type serves a specific purpose, but some are rarely used.
+
+3. **Some values are lonely.** For example, `null` is the only value of the Null type, and `undefined` is the only value of the Undefined type. As we will learn later, these two lonely values are quite the troublemakers!
+
+4. **We can ask questions with expressions.** JavaScript will answer to us with values. For example, the `2 + 2` expression is answered with 4.
+
+5. **We can inspect the type of something by wrapping it in a typeof expression.** For example, `typeof(4)` is the string value "number".
+
+# Exercises
+
+Now it's time to put what we learned to action.
+
+Even if you already have a decent amount of experience with JavaScript don't skip the exercise questions! I personally learned some of these things only a few years ago.
+
+[Questions](https://eggheadio.typeform.com/to/PLyTKB?email=andylauszp@gmail.com&ck_subscriber_id=746096254) and provide feedback about this module. When you complete the exercises I will send the next module right away.
+
+Next up we will explore the Primitive Values in more detail. We look at what these different primitive types like numbers and Null have in common, and learn a thing or two about what equality means in JavaScript.
+
+We will also continue to refine our mental model. This module presents a crude sketch - an approximation. We will focus on different parts of the picture and fill them in with more details, like a [progressive JPEG](https://www.liquidweb.com/kb/what-is-a-progressive-jpeg/?ck_subscriber_id=746096254) image.
+
+These might seem like small steps, but we're laying the foundation for everything else to come. We're building the JavaScript universe, together.
